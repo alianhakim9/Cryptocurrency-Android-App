@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,8 +37,7 @@ class CoinDetailFragment : Fragment() {
         _binding = FragmentCoinDetailBinding.inflate(inflater, container, false)
         savedInstanceState?.putString(Constants.PARAM_COIN_ID, args.coinId)
 
-        binding.rvTeamMember.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvTeamMember.adapter = teamAdapter
+        setupRecyclerView()
 
         lifecycleScope.launchWhenCreated {
             viewModel.state.collect {
@@ -101,5 +101,13 @@ class CoinDetailFragment : Fragment() {
         binding.rvTeamMember.visibility = View.GONE
         binding.textView2.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun setupRecyclerView() {
+        binding.rvTeamMember.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvTeamMember.adapter = teamAdapter
+        binding.rvTeamMember.addItemDecoration(
+            DividerItemDecoration(requireContext(), LinearLayoutManager.HORIZONTAL)
+        )
     }
 }
